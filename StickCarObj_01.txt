@@ -1,0 +1,212 @@
+
+procedure zahyou(zx1,zy1,zL1,za1:real;var zx2,zy2:real);
+begin
+za1:=Deg2Rad(za1);
+zx2:=zL1*cos(za1)+zx1;
+zy2:=zL1*sin(za1)+zy1;
+end;
+
+procedure kakudo(kakudo_x1,kakudo_y1,kakudo_x2,kakudo_y2:real;var kakudo:real);
+var
+kakudoH:handle;
+begin
+MoveTo(kakudo_x1,kakudo_y1);
+LineTo(kakudo_x2,kakudo_y2);
+kakudoH:=LNewObj;
+kakudo:=HAngle(kakudoH);
+DelObject(kakudoH);
+end;
+
+procedure kaiten90(kaiten_x1,kaiten_y1,kaiten_x2,kaiten_y2:real;var kaiten_x3,kaiten_y3,kaiten_x4,kaiten_y4:real);
+var
+tyuuten_x1,tyuuten_y1,kaiten90_a1,kaiten90_a2,kaiten90_a3,kaiten90_kyori:real;
+begin
+kaiten90_kyori:=Distance(kaiten_x1,kaiten_y1,kaiten_x2,kaiten_y2);
+kakudo(kaiten_x1,kaiten_y1,kaiten_x2,kaiten_y2,kaiten90_a1);
+{kaiten90_a1:=Rad2Deg(ArcTan((kaiten_y1-kaiten_y2)/(kaiten_x1-kaiten_x2)));}
+kaiten90_a2:=kaiten90_a1+90;
+kaiten90_a3:=kaiten90_a1-90;
+tyuuten_x1:=(kaiten_x1-kaiten_x2)/2+kaiten_x2;
+tyuuten_y1:=(kaiten_y1-kaiten_y2)/2+kaiten_y2;
+zahyou(tyuuten_x1,tyuuten_y1,kaiten90_kyori/2,kaiten90_a2,kaiten_x3,kaiten_y3);
+zahyou(tyuuten_x1,tyuuten_y1,kaiten90_kyori/2,kaiten90_a3,kaiten_x4,kaiten_y4);
+end;
+
+procedure kouten(kx1,ky1,kx2,ky2,kx3,ky3,kx4,ky4:real;var kx,ky:real;var kouten_hantei:string);
+var
+menseki1,menseki2,menseki3:real;
+begin
+menseki1:=((kx1-kx2)*(ky3-ky2)-(ky1-ky2)*(kx3-kx2))/2;
+menseki2:=((kx1-kx2)*(ky2-ky4)-(ky1-ky2)*(kx2-kx4))/2;
+menseki3:=menseki1+menseki2;
+	if menseki3=0 then begin
+	kouten_hantei:='heikou';
+	end else begin
+	kx:=kx3+(kx4-kx3)*menseki1/menseki3;
+	ky:=ky3+(ky4-ky3)*menseki1/menseki3;
+	kouten_hantei:='OK'; 
+	end;
+end;
+
+procedure tyuusin(tyuusin_LR:string;kaitenhankei,tyuusin_x1,tyuusin_y1,tyuusin_x2,tyuusin_y2,tyuusin_x3,tyuusin_y3:real;var tyuusin_x,tyuusin_y:real);
+var
+tyuusin_a1,tyuusin_a2,tyuusin_a3,tyuusin_d1,tyuusin_px,tyuusin_py,tyuusin_wbase,tyuusin_ftread:real;
+begin
+tyuusin_wbase:=Pwbase;
+tyuusin_ftread:=Pftread;
+kakudo(tyuusin_x1,tyuusin_y1,tyuusin_x2,tyuusin_y2,tyuusin_a1);
+tyuusin_a2:=tyuusin_a1-90;
+zahyou(tyuusin_x3,tyuusin_y3,tyuusin_wbase,tyuusin_a2,tyuusin_px,tyuusin_py);
+tyuusin_d1:=Abs(Sqrt(Sqr(kaitenhankei)-Sqr(tyuusin_wbase)));
+if tyuusin_LR='Left' then zahyou(tyuusin_px,tyuusin_py,tyuusin_d1,tyuusin_a1+180,tyuusin_x,tyuusin_y);
+if tyuusin_LR='Right' then zahyou(tyuusin_px,tyuusin_py,tyuusin_d1-tyuusin_ftread,tyuusin_a1,tyuusin_x,tyuusin_y);
+end;
+
+
+procedure CarFactory(fx01,fy01,fx02,fy02,fx03,fy03,fx04,fy04,fx05,fy05,fx06,fy06,fx07,fy07,fx08,fy08,fx09,fy09,fx10,fy10,fx11,fy11,fx12,fy12,fx13,fy13,fx14,fy14,fx15,fy15,fx16,fy16,fx17,fy17,fx18,fy18,fx19,fy19,fx20,fy20,fx21,fy21:real);
+var
+symbolName:string;
+symbolAngle:real;
+begin
+
+ClosePoly;
+Poly(fx01,fy01,fx02,fy02,fx03,fy03,fx04,fy04,fx05,fy05,fx06,fy06,fx07,fy07,fx08,fy08);
+h000:=LNewObj;
+SetClass(h000,'StickCarObj-body');
+MoveTo(fx10,fy10);
+LineTo(fx11,fy11);
+h000:=LNewObj;
+SetClass(h000,'StickCarObj-wheel');
+MoveTo(fx12,fy12);
+LineTo(fx13,fy13);
+h000:=LNewObj;
+SetClass(h000,'StickCarObj-wheel');
+MoveTo(fx14,fy14);
+LineTo(fx15,fy15);
+h000:=LNewObj;
+SetClass(h000,'StickCarObj-wheel');
+MoveTo(fx16,fy16);
+LineTo(fx17,fy17);
+h000:=LNewObj;
+SetClass(h000,'StickCarObj-wheel');
+MoveTo(fx18,fy18);
+LineTo(fx19,fy19);
+h000:=LNewObj;
+SetClass(h000,'StickCarObj-wheel');
+MoveTo(fx20,fy20);
+LineTo(fx21,fy21);
+h000:=LNewObj;
+SetClass(h000,'StickCarObj-wheel');
+MoveTo(fx02,fy02);
+LineTo(fx07,fy07);
+h000:=LNewObj;
+SetClass(h000,'StickCarObj-mark');
+MoveTo(fx02,fy02);
+LineTo(fx05,fy05);
+h000:=LNewObj;
+SetClass(h000,'StickCarObj-mark');
+if i003=1 then begin
+symbolName:=P__imgname;
+kakudo(fx12,fy12,fx13,fy13,symbolAngle);
+Symbol(symbolName,fx02,fy02,symbolAngle);
+end;
+end;
+
+procedure Driving(direction:string;d_angle,d_radius,d_distance,x01,y01,x02,y02,x03,y03,x04,y04,x05,y05,x06,y06,x07,y07,x08,y08,x09,y09,x10,y10,x11,y11,x12,y12,x13,y13,x14,y14,x15,y15,x16,y16,x17,y17,x18,y18,x19,y19,x20,y20,x21,y21:real; var xx01,yy01,xx02,yy02,xx03,yy03,xx04,yy04,xx05,yy05,xx06,yy06,xx07,yy07,xx08,yy08,xx09,yy09,xx10,yy10,xx11,yy11,xx12,yy12,xx13,yy13,xx14,yy14,xx15,yy15,xx16,yy16,xx17,yy17,xx18,yy18,xx19,yy19,xx20,yy20,xx21,yy21:real);
+var
+a00,a01,a02,a03,a04,d00,d01,x00,y00:real;
+s00,s01:string;
+h00:handle;
+b00:boolean;
+begin
+
+if direction='Straight' then begin
+
+kakudo(x12,y12,x13,y13,a01);
+a00:=a01+90;
+zahyou(x01,y01,d_distance,a00,xx01,yy01);
+zahyou(x02,y02,d_distance,a00,xx02,yy02);
+zahyou(x03,y03,d_distance,a00,xx03,yy03);
+zahyou(x04,y04,d_distance,a00,xx04,yy04);
+zahyou(x05,y05,d_distance,a00,xx05,yy05);
+zahyou(x06,y06,d_distance,a00,xx06,yy06);
+zahyou(x07,y07,d_distance,a00,xx07,yy07);
+zahyou(x08,y08,d_distance,a00,xx08,yy08);
+zahyou(x09,y09,d_distance,a00,xx09,yy09);
+zahyou(x10,y10,d_distance,a00,xx10,yy10);
+zahyou(x11,y11,d_distance,a00,xx11,yy11);
+zahyou(x12,y12,d_distance,a00,xx12,yy12);
+zahyou(x13,y13,d_distance,a00,xx13,yy13);
+zahyou(x14,y14,d_distance,a00,xx14,yy14);
+zahyou(x15,y15,d_distance,a00,xx15,yy15);
+zahyou(x16,y16,d_distance,a00,xx16,yy16);
+zahyou(x17,y17,d_distance,a00,xx17,yy17);
+zahyou(x18,y18,d_distance,a00,xx18,yy18);
+zahyou(x19,y19,d_distance,a00,xx19,yy19);
+zahyou(x20,y20,d_distance,a00,xx20,yy20);
+zahyou(x21,y21,d_distance,a00,xx21,yy21);
+MoveTo(x08,y08);
+LineTo(xx08,yy08);
+h00:=LNewObj;
+SetClass(h00,'StickCarObj-track-inside');
+MoveTo(x04,y04);
+LineTo(xx04,yy04);
+h00:=LNewObj;
+SetClass(h00,'StickCarObj-track-inside');
+
+end else begin
+
+	if direction='Right' then begin d_angle:=-d_angle; end;
+	tyuusin(direction,d_radius,x12,y12,x13,y13,x11,y11,x00,y00);
+	kakudo(x00,y00,x01,y01,a02);d00:=distance(x00,y00,x01,y01);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx01,yy01);if direction='Right' then begin Arc(x00-d00,y00+d00,x00+d00,y00-d00,a02,d_angle);h00:=LNewObj;SetClass(h00,'StickCarObj-track-outside');end;
+	kakudo(x00,y00,x02,y02,a02);d00:=distance(x00,y00,x02,y02);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx02,yy02);
+	kakudo(x00,y00,x03,y03,a02);d00:=distance(x00,y00,x03,y03);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx03,yy03);if direction='Left' then begin Arc(x00-d00,y00+d00,x00+d00,y00-d00,a02,d_angle);h00:=LNewObj;SetClass(h00,'StickCarObj-track-outside');end;
+	kakudo(x00,y00,x04,y04,a02);d00:=distance(x00,y00,x04,y04);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx04,yy04);if direction='Right' then begin Arc(x00-d00,y00+d00,x00+d00,y00-d00,a02,d_angle);h00:=LNewObj;SetClass(h00,'StickCarObj-track-inside');end;
+	kakudo(x00,y00,x05,y05,a02);d00:=distance(x00,y00,x05,y05);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx05,yy05);if direction='Left' then begin Arc(x00-d00,y00+d00,x00+d00,y00-d00,a02,d_angle);h00:=LNewObj;SetClass(h00,'StickCarObj-track-outside');end;
+	kakudo(x00,y00,x06,y06,a02);d00:=distance(x00,y00,x06,y06);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx06,yy06);
+	kakudo(x00,y00,x07,y07,a02);d00:=distance(x00,y00,x07,y07);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx07,yy07);if direction='Right' then begin Arc(x00-d00,y00+d00,x00+d00,y00-d00,a02,d_angle);h00:=LNewObj;SetClass(h00,'StickCarObj-track-outside');end;
+	kakudo(x00,y00,x08,y08,a02);d00:=distance(x00,y00,x08,y08);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx08,yy08);if direction='Left' then begin Arc(x00-d00,y00+d00,x00+d00,y00-d00,a02,d_angle);h00:=LNewObj;SetClass(h00,'StickCarObj-track-inside');end;
+	kakudo(x00,y00,x09,y09,a02);d00:=distance(x00,y00,x09,y09);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx09,yy09);
+	kakudo(x00,y00,x10,y10,a02);d00:=distance(x00,y00,x10,y10);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx10,yy10);if direction='Right' then begin Arc(x00-d00,y00+d00,x00+d00,y00-d00,a02,d_angle);h00:=LNewObj;SetClass(h00,'StickCarObj-track-turning_radius');end;
+	kakudo(x00,y00,x11,y11,a02);d00:=distance(x00,y00,x11,y11);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx11,yy11);if direction='Left' then begin Arc(x00-d00,y00+d00,x00+d00,y00-d00,a02,d_angle);h00:=LNewObj;SetClass(h00,'StickCarObj-track-turning_radius');end;
+	kakudo(x00,y00,x12,y12,a02);d00:=distance(x00,y00,x12,y12);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx12,yy12);
+	kakudo(x00,y00,x13,y13,a02);d00:=distance(x00,y00,x13,y13);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx13,yy13);
+	kakudo(x00,y00,x14,y14,a02);d00:=distance(x00,y00,x14,y14);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx14,yy14);
+	kakudo(x00,y00,x15,y15,a02);d00:=distance(x00,y00,x15,y15);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx15,yy15);
+	kakudo(x00,y00,x16,y16,a02);d00:=distance(x00,y00,x16,y16);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx16,yy16);
+	kakudo(x00,y00,x17,y17,a02);d00:=distance(x00,y00,x17,y17);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx17,yy17);
+	kakudo(x00,y00,x18,y18,a02);d00:=distance(x00,y00,x18,y18);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx18,yy18);
+	kakudo(x00,y00,x19,y19,a02);d00:=distance(x00,y00,x19,y19);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx19,yy19);
+	kakudo(x00,y00,x20,y20,a02);d00:=distance(x00,y00,x20,y20);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx20,yy20);
+	kakudo(x00,y00,x21,y21,a02);d00:=distance(x00,y00,x21,y21);a03:=a02+d_angle;zahyou(x00,y00,d00,a03,xx21,yy21);
+
+	end;
+
+end;
+
+procedure SetCP(cpx1,cpy1,cpx2,cpy2,cpx3,cpy3,cpx4,cpy4,cpx5,cpy5,cpx6,cpy6,cpx7,cpy7,cpx8,cpy8,cpx9,cpy9:real);
+begin
+SetRField(objH,recN,'ControlPoint01X',Num2StrF(cpx1));
+SetRField(objH,recN,'ControlPoint02X',Num2StrF(cpx2));
+SetRField(objH,recN,'ControlPoint03X',Num2StrF(cpx3));
+SetRField(objH,recN,'ControlPoint04X',Num2StrF(cpx4));
+SetRField(objH,recN,'ControlPoint05X',Num2StrF(cpx5));
+SetRField(objH,recN,'ControlPoint06X',Num2StrF(cpx6));
+SetRField(objH,recN,'ControlPoint07X',Num2StrF(cpx7));
+SetRField(objH,recN,'ControlPoint08X',Num2StrF(cpx8));
+SetRField(objH,recN,'ControlPoint09X',Num2StrF(cpx9));
+SetRField(objH,recN,'ControlPoint01Y',Num2StrF(cpy1));
+SetRField(objH,recN,'ControlPoint02Y',Num2StrF(cpy2));
+SetRField(objH,recN,'ControlPoint03Y',Num2StrF(cpy3));
+SetRField(objH,recN,'ControlPoint04Y',Num2StrF(cpy4));
+SetRField(objH,recN,'ControlPoint05Y',Num2StrF(cpy5));
+SetRField(objH,recN,'ControlPoint06Y',Num2StrF(cpy6));
+SetRField(objH,recN,'ControlPoint07Y',Num2StrF(cpy7));
+SetRField(objH,recN,'ControlPoint08Y',Num2StrF(cpy8));
+SetRField(objH,recN,'ControlPoint09Y',Num2StrF(cpy9));
+end;
+
+
+
+
+

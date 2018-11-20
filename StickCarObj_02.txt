@@ -1,0 +1,102 @@
+
+
+
+procedure CPDriving(control_x,control_y,kijun_x,kijun_y,kijun02_x,kijun02_y,kijun06_x,kijun06_y,kijun10_x,kijun10_y,kijun11_x,kijun11_y,kijun12_x,kijun12_y,kijun13_x,kijun13_y:real;var houkou_S:string;var kakudo_R,hankei_R,kyori_R:real;var mode_I:integer);
+var
+cpx00,cpy00,cpx01,cpy01,cpx02,cpy02:real;
+cpa01,cpa02,cpa03:real;
+cpd01,cpd02:real;
+cps01:string;
+begin
+
+if (control_x<>kijun_x)or(control_y<>kijun_y) then begin
+	kaiten90(kijun_x,kijun_y,control_x,control_y,cpx01,cpy01,cpx02,cpy02);
+	kouten(cpx01,cpy01,cpx02,cpy02,kijun12_x,kijun12_y,kijun13_x,kijun13_y,cpx00,cpy00,cps01);
+		if cps01='OK' then begin
+		cpd01:=Distance(cpx00,cpy00,kijun10_x,kijun10_y);
+		cpd02:=Distance(cpx00,cpy00,kijun11_x,kijun11_y);
+			if cpd01<cpd02 then begin
+				if miniradius_r>cpd02 then begin cpd02:=miniradius_r;ResetObject(objH);SysBeep; end;
+			kakudo(cpx00,cpy00,kijun_x,kijun_y,cpa01);
+			kakudo(cpx00,cpy00,control_x,control_y,cpa02);
+			cpa03:=cpa02-cpa01;
+			houkou_S:='Left';{SetRField(objH,recN,'__direction1',houkou_S);}
+			kakudo_R:=cpa03;{SetRField(objH,recN,'__angle1',Num2StrF(kakudo_R));}
+			hankei_R:=cpd02;{SetRField(objH,recN,'__radius1',Num2StrF(hankei_R));}
+			mode_I:=11;
+	
+			end else begin
+				if miniradius_r>cpd01 then begin cpd01:=miniradius_r;ResetObject(objH);SysBeep; end;
+			kakudo(cpx00,cpy00,kijun_x,kijun_y,cpa01);
+			kakudo(cpx00,cpy00,control_x,control_y,cpa02);
+			cpa03:=cpa01-cpa02;
+			houkou_S:='Right';{SetRField(objH,recN,'__direction1',houkou_S);}
+			kakudo_R:=cpa03;{SetRField(objH,recN,'__angle1',Num2StrF(kakudo_R));}
+			hankei_R:=cpd01;{SetRField(objH,recN,'__radius1',Num2StrF(hankei_R));}
+			mode_I:=12;
+			end;
+
+		end else begin
+		cpd01:=Distance(kijun_x,kijun_y,control_x,control_y);
+		kakudo(kijun_x,kijun_y,control_x,control_y,cpa01);
+		kakudo(kijun06_x,kijun06_y,kijun02_x,kijun02_y,cpa02);
+		if (cpa01-cpa02)<>0 then cpd01:=-cpd01;
+		houkou_S:='Straight';{SetRField(objH,recN,'__direction1',houkou_S);}
+		kyori_R:=cpd01;{SetRField(objH,recN,'__distance1',Num2StrF(kyori_R));}
+		mode_I:=10;
+		end;
+end else begin
+	mode_I:=0;
+end;
+end;
+
+
+
+{
+procedure AboutSP;
+var
+dialogID,aResult:LONGINT;
+
+PROCEDURE doDialogCallback(VAR ioHitItem:LONGINT;inValue:LONGINT);
+var
+dialogboo:boolean;
+begin
+if ioHitItem=2 then
+dialogboo:=OpenURL('http://stickpackage.sub.jp/');
+end;
+
+dialogID:=CreateLayout('About StickPackage(StickCar)', false,'.          OK          .','Access to StickPackage Homepage');
+
+CreateGroupBox(dialogID,3,'About StickPackage(StickCar)',true);
+SetFirstLayoutItem(dialogID,3);
+CreateStaticText(dialogID, 4,'
+StickPackage is a collection of scripts for Vectorworks. StickCar for drawing the locus of a car, StickShadow(in preparation) for drawing the locus of shadows, StickTools (in preparation) for adding a convenient function, etc, are contained.',100);
+SetFirstGroupItem(dialogID,3,4);
+CreateStaticText(dialogID, 5,'All the contents of the script of StickPackage are exhibited. The user can copies, modifies and sell it. ',100);
+SetBelowItem(dialogID,4,5,0,0);
+CreateStaticText(dialogID, 6,'When distributing the script made by making it such, it must be opened the script to the public on the Internet, and the copy by a third party, a modification, and sale must be permitted. However, this restriction is not applied to symbol data or the image data which a script uses.',100);
+SetBelowItem(dialogID,5,6,0,0);
+CreateStaticText(dialogID, 7,'When distributing Script derived from the script of StickPackage to a third party, you must add a License Agreement (except the rate) same as StickPackage.In addition, the contents shall be followed when the script function and use conditions of Vectorworks are changed.',100);
+SetBelowItem(dialogID,6,7,0,0);
+CreateStaticText(dialogID, 8,'In no event will the producer of StickPackage(Akihiro Azuma) is liable for any consequential, indirect, special, punitive, exemplary or incidental damages, loss of goodwill or business profits, even if the producer of StickPackage has been advised of the possibility thereof.',100);
+SetBelowItem(dialogID,7,8,0,0);
+CreateStaticText(dialogID, 9,'In addition, the producer shall not assume an obligation of all to revise even if defective in the contents.',100);
+SetBelowItem(dialogID,8,9,0,0);
+CreateStaticText(dialogID, 10,'
+StickPackage is Sharware. A share charge is set to $20 per one user.
+Please pay a share rate if you can like it after it was made a try.
+I cannot refund the transferred rate, thank you for your understanding beforehand.',100);
+SetBelowItem(dialogID,9,10,0,0);
+CreateStaticText(dialogID, 11,'Vectorworks is a registered trademark of Nemetschek Vectorworks,Inc., and Nemetschek Vectorworks,Inc holds the right of all.
+In StickPackage and StickCar,StickShadow,StickTools, Aihiro Azuma holds the copyright by the name of the script which Akihiro Azuma produced for Vectorworks.',100);
+SetBelowItem(dialogID,10,11,0,0);
+CreateStaticText(dialogID, 12,'StickPackage © 1999- Akihiro Azuma
+Email=stickpackage@gmail.com
+StickPackage Homepage
+URL=http://stickpackage.sub.jp/',100);
+SetBelowItem(dialogID,11,12,0,0);
+
+aResult:=RunLayoutDialog(dialogID,doDialogCallback);
+
+end;
+}
