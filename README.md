@@ -1,5 +1,5 @@
 # stickcar  
-**StickCar** is a plug-in object for [Vectorworks](https://www.vectorworks.net/) for drawing the locus of cars.  
+**StickCar** is a plug-in object for [Vectorworks](https://www.vectorworks.net/) to simulate a track of a vehicle.  
 ## Supports the version of Vectorworks
 - v.2011  
 - v.2012(Unconfirmed)  
