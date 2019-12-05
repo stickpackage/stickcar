@@ -32,6 +32,6 @@
 - GitHub : [https://github.com/stickpackage/stickcar](https://github.com/stickpackage/stickcar)  
 
 ## Donation  
-- BTC/CounteParty : 1Kgi2iBANxLvqZPrGDzRSPQZDBbcHrhCYU  
+- BTC/CounterParty : 1Kgi2iBANxLvqZPrGDzRSPQZDBbcHrhCYU  
 - ETH : 0xFF0713618C57459F9554b764E1a5a74d722Df345  
 - MONA/MonaParty : MURuhUdGgdroCWsyDUB7pHCbqfUwQ9PAY5  
