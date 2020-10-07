@@ -1,14 +1,12 @@
 # stickcar  
 **StickCar** is a plug-in object for [Vectorworks](https://www.vectorworks.net/) to simulate a track of a vehicle.  
 ## Supports the version of Vectorworks
-- v.2011  
-- v.2012(Unconfirmed)  
-- v.2013(Unconfirmed)  
-- v.2014(Unconfirmed)  
-- v.2015(Unconfirmed)  
+- v.2011   
 - v.2016  
 - v.2017  
 - v.2018  
+- v.2019
+- v.2020
 
 > *Old version(v11.5-12.5, v.2008-2010) is [here](http://stickpackage.azf.jp/jpn/download.html) (japanese only, Command Menu script)*   
 
